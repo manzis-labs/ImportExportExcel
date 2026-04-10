@@ -126,6 +126,12 @@ class ImportController extends Controller
     ));
 }
 
+    public function edit($id)
+    {
+        $data = AbsensiTukang::findOrFail($id);
+        return view('edit', compact('data'));
+    }   
+
     public function update(Request $request, $id)
     {
         $data = AbsensiTukang::findOrFail($id);
@@ -139,7 +145,7 @@ class ImportController extends Controller
 
         return redirect('/dashboard');
     }
-    
+
     public function delete($id)
     {
     AbsensiTukang::findOrFail($id)->delete();
