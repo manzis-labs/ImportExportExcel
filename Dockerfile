@@ -22,6 +22,6 @@ RUN php artisan config:cache
 
 # Expose port
 EXPOSE 10000
-
+#test
 # Run server
 CMD php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=10000
