@@ -7,6 +7,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\AbsensiExport;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use App\Models\AbsensiTukang;
+use Illuminate\Support\Facades\DB;
 
 class ImportController extends Controller
 {
@@ -112,17 +113,22 @@ class ImportController extends Controller
     }
 
     // ambil data
-    $data = $query->latest()->paginate(10);
+    $data = AbsensiTukang::all();
 
-    $totalData = $query->count();
-    $totalUpah = $query->sum('upah_harian');
-    $totalTukang = $query->distinct('nama_tukang')->count('nama_tukang');
+    $totalData = $data->count();
+    $totalUpah = $data->sum('upah_harian');
+    $totalTukang = $data->unique('nama_tukang')->count();
+    
+        $chart = AbsensiTukang::select('proyek', DB::raw('SUM(upah_harian) as total'))
+        ->groupBy('proyek')
+        ->get();
 
     return view('dashboard', compact(
         'data',
         'totalData',
         'totalUpah',
-        'totalTukang'
+        'totalTukang',
+        'chart'
     ));
 }
 
