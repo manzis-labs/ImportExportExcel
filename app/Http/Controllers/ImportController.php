@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\AbsensiExport;
@@ -214,5 +215,28 @@ public function export(Request $request)
     {
     AbsensiTukang::findOrFail($id)->delete();
     return back()->with('success', 'Data berhasil dihapus');
+    }
+
+    public function exportPDF(Request $request)
+{
+    $query = AbsensiTukang::query();
+
+    if ($request->nama) {
+        $query->where('nama_tukang', 'like', '%' . $request->nama . '%');
+    }
+
+    if ($request->proyek) {
+        $query->where('proyek', 'like', '%' . $request->proyek . '%');
+    }
+
+    if ($request->tanggal) {
+        $query->whereDate('tanggal', $request->tanggal);
+    }
+
+    $data = $query->get();
+
+    $pdf = Pdf::loadView('pdf', compact('data'));
+
+    return $pdf->download('laporan_absensi.pdf');
     }
 }

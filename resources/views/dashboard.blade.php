@@ -1,20 +1,34 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Dashboard Data</title>
+    <title>Maulana Cipta Kreasindo</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow sticky-top">
+    <div class="container">
+        <a class="navbar-brand" href="#">Maulana Cipta Kreasindo</a>
+
+        <div class="d-flex gap-2">
+            <a href="/dashboard" class="btn btn-outline-light btn-sm">Dashboard</a>
+            <a href="/upload" class="btn btn-primary btn-sm">Import</a>
+            <a href="{{ url('/export') }}?nama={{ request('nama') }}&proyek={{ request('proyek') }}&tanggal={{ request('tanggal') }}" class="btn btn-success btn-sm">Excel</a>
+            <a href="/export-pdf" class="btn btn-danger btn-sm">PDF</a>
+
+            <form action="/logout" method="POST">
+                @csrf
+                <button class="btn btn-warning btn-sm">Logout</button>
+            </form>
+        </div>
+    </div>
+</nav> 
 
 <div class="container mt-5">
 
     <div class="card shadow">
         <div class="card-header bg-dark text-white d-flex justify-content-between mb-3">
-            <h2>Dashboard Data Absensi Karyawan Maulana Cipta Kreasindo</h2>
-            <form action="/logout" method="POST" class="mb-3">
-                 @csrf
-                <button class="btn btn-danger">Logout</button>
-            </form>
+            <h2>Dashboard Data Absensi Karyawan</h2>
         </div>
 
         <div class="card-body">
@@ -41,38 +55,54 @@
                 </div>
             </form>
 
-            <div class="mb-3 d-flex gap-2">
+            <div class="mb-1 d-flex gap-2">
 
                 <!-- IMPORT -->
-                <a href="/upload" class="btn btn-primary">
+                <a href="/upload" class="btn btn-primary mb-3">
                     📥 Import Excel
                 </a>
 
                 <!-- EXPORT -->
-                <a href="{{ url('/export') }}?nama={{ request('nama') }}&proyek={{ request('proyek') }}&tanggal={{ request('tanggal') }}" class="btn btn-success">
+                <a href="{{ url('/export') }}?nama={{ request('nama') }}&proyek={{ request('proyek') }}&tanggal={{ request('tanggal') }}" class="btn btn-success  mb-3">
                     📤 Export Excel
                 </a>
-
+                <a href="{{ url('/export-pdf') }}?nama={{ request('nama') }}&proyek={{ request('proyek') }}&tanggal={{ request('tanggal') }}" class="btn btn-danger mb-3">
+                    📄 Export PDF
+                </a>
             </div>
 
-            <div style="display: flex; gap: 20px; margin-bottom: 20px;">
-                <div class="text-center" style="background: #4CAF50; color: white; padding: 15px; border-radius: 10px;">
-                    <h3>Total Data</h3>
-                    <p class="fs-5 fw-bold mb-0">{{ $totalData }}</p>
-                </div>
+ <div class="row mb-4">
 
-                <div class="text-center" style="background: #2196F3; color: white; padding: 15px; border-radius: 10px;">
-                    <h3>Total Upah</h3>
-                    <p class="fs-5 fw-bold mb-0">Rp {{ number_format($totalUpah, 0, ',', '.') }}</p>
-                </div>
-
-                <div class="text-center" style="background: #FF9800; color: white; padding: 15px; border-radius: 10px;">
-                    <h3>Jumlah Karyawan</h3>
-                    <p class="fs-4 fw-bold mb-0">{{ $totalTukang }}</p>
-                </div>
+    <div class="col-md-4">
+        <div class="card shadow border-0">
+            <div class="card-body text-center">
+                <h6>Total Data</h6>
+                <h3>{{ $totalData }}</h3>
             </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card shadow border-0">
+            <div class="card-body text-center">
+                <h6>Total Upah</h6>
+                <h3>Rp {{ number_format($totalUpah,0,',','.') }}</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card shadow border-0">
+            <div class="card-body text-center">
+                <h6>Jumlah Tukang</h6>
+                <h3>{{ $totalTukang }}</h3>
+            </div>
+        </div>
+    </div>
+
+</div>
             <!-- Table -->
-            <table class="table table-bordered table-striped">
+            <table class="table table-bordered table-striped align-middle">
                 <thead class="table-dark">
                     <tr>
                         <th>Tanggal</th>
@@ -93,11 +123,17 @@
                         <td>{{ $d->tanggal }}</td>
                         <td>{{ $d->nama_tukang }}</td>
                         <td>{{ $d->jabatan }}</td>
-                        <td>{{ $d->proyek }}</td>
+                        <td>
+                            <span style="font-size: 15px;" class="badge bg-info">{{ $d->proyek }}</span>
+                        </td>
                         <td>{{ $d->jam_masuk }}</td>
                         <td>{{ $d->jam_pulang }}</td>
                         <td>{{ $d->status }}</td>
-                        <td>{{ $d->upah_harian }}</td>
+                        <td>
+                            <span class="badge bg-success">
+                            Rp {{ number_format($d->upah_harian,0,',','.') }}
+                        </span>
+                        </td>
                         <td>
                             <a href="/edit/{{ $d->id }}" class="btn btn-warning btn-sm">
                                 Edit
@@ -105,7 +141,7 @@
                             <a href="/delete/{{ $d->id }}" 
                                onclick="return confirm('Yakin hapus?')" 
                                class="btn btn-danger btn-sm">
-                               Hapus
+                               🗑️
                             </a>
                         </td>
                     </tr>
@@ -113,9 +149,9 @@
                 </tbody>
             </table>
             {{ $data->links() }}
-            <div class="card mb-4">
+            <div class="card shadow mb-4">
                 <div class="card-body">
-                    <h5>Grafik Total Upah per Proyek</h5>
+                    <h5 class="mb-3">Grafik Total Upah per Proyek</h5>
                     <canvas id="myChart"></canvas>
                 </div>
             </div>

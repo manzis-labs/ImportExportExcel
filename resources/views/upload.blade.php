@@ -9,16 +9,15 @@
 <div class="container mt-5">
     <div class="card shadow">
         <div class="card-header bg-primary text-white">
-            <h4>Import Data Absensi</h4>
+            <h4 class="text-center mb-3">Import Data Absensi</h4>
         </div>
-
         <div class="card-body">
             @if(session('success'))
                 <div class="alert alert-success">
                     {{ session('success') }}
                 </div>
             @endif
-
+            <p class="text-muted">Upload file Excel untuk diproses</p>
             <form action="/preview" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="mb-3">

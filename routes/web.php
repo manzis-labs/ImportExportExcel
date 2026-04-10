@@ -18,6 +18,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/export', [ImportController::class, 'export']);
     Route::get('/edit/{id}', [ImportController::class, 'edit']);
     Route::post('/update/{id}', [ImportController::class, 'update']);
+    Route::get('/export-pdf', [ImportController::class, 'exportPDF']);
 
 });
 

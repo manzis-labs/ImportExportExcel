@@ -9,7 +9,7 @@
     <div class="card shadow rounded-4">
         
         <div class="card-header bg-warning text-dark">
-            <h4 class="mb-0">✏️ Edit Data Tukang</h4>
+            <h4 class="mb-0">✏️ Edit Data</h4>
         </div>
 
         <div class="card-body">
