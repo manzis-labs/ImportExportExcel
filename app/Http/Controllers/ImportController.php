@@ -36,57 +36,98 @@ class ImportController extends Controller
         return redirect('/dashboard')->with('success', 'Data berhasil diimport!');
     }
 
-    public function preview(Request $request)
-    {
+public function preview(Request $request)
+{
     $file = $request->file('file');
 
     $spreadsheet = IOFactory::load($file);
     $data = $spreadsheet->getActiveSheet()->toArray();
 
     $errors = [];
-
-    foreach ($data as $i => $row) {
-    if ($i == 0) continue;
-
-    if (empty($row[0])) {
-        $errors[] = "Baris " . ($i+1) . " tanggal kosong";
-    }
-
-    if (!strtotime($row[0])) {
-        $errors[] = "Baris " . ($i+1) . " format tanggal salah";
-    }
-
-    if (!is_numeric($row[7])) {
-        $errors[] = "Baris " . ($i+1) . " upah harus angka";
-    }
-}
-
-    session(['excel_data' => $data]);
-
-    return view('preview', compact('data', 'errors'));
-    }
-
-    public function import()
-    {
-    $data = session('excel_data');
+    $warnings = [];
+    $preview = [];
 
     foreach ($data as $i => $row) {
         if ($i == 0) continue;
 
-        AbsensiTukang::create([
+        if (empty($row[0])) {
+            $errors[] = "Baris " . ($i+1) . " tanggal kosong";
+        }
+
+        if (!strtotime($row[0])) {
+            $errors[] = "Baris " . ($i+1) . " format tanggal salah";
+        }
+
+        if (!is_numeric($row[7])) {
+            $errors[] = "Baris " . ($i+1) . " upah harus angka";
+        }
+
+        $exists = AbsensiTukang::where('tanggal', $row[0])
+            ->where('nama_tukang', $row[1])
+            ->where('proyek', $row[3])
+            ->exists();
+            $isError = false;
+        if ($exists) {
+            $warnings[] = "Baris " . ($i+1) . " data duplikat (sudah ada di database)";
+            }
+        $preview[] = [
+            'no' => $i + 1,
             'tanggal' => $row[0],
             'nama_tukang' => $row[1],
             'jabatan' => $row[2],
             'proyek' => $row[3],
-            'jam_masuk' => $row[4] ?: null,
-            'jam_pulang' => $row[5] ?: null,
+            'jam_masuk' => $row[4],
+            'jam_pulang' => $row[5],
             'status' => $row[6],
             'upah_harian' => $row[7],
-        ]);
+            'duplicate' => $exists,
+            'is_error' => $isError
+        ];
     }
 
-    return redirect('/dashboard')->with('success', 'Data berhasil diimport!');
+    session(['excel_data' => $data]);
+
+    return view('preview', compact('preview', 'errors', 'warnings'));
+}
+
+    public function import()
+{
+    $data = session('excel_data');
+
+    $inserted = 0;
+    $skipped = 0;
+
+    foreach ($data as $i => $row) {
+        if ($i == 0) continue;
+
+        $exists = AbsensiTukang::where('tanggal', $row[0])
+            ->where('nama_tukang', $row[1])
+            ->where('proyek', $row[3])
+            ->exists();
+
+        if (!$exists) {
+            AbsensiTukang::create([
+                'tanggal' => $row[0],
+                'nama_tukang' => $row[1],
+                'jabatan' => $row[2],
+                'proyek' => $row[3],
+                'jam_masuk' => $row[4] ?: null,
+                'jam_pulang' => $row[5] ?: null,
+                'status' => $row[6],
+                'upah_harian' => $row[7],
+            ]);
+
+            $inserted++;
+        } else {
+            $skipped++;
+        }
     }
+
+    return redirect('/dashboard')->with(
+        'success',
+        "Import selesai: $inserted data masuk, $skipped data duplikat dilewati"
+    );
+}
 
 public function export(Request $request)
 {

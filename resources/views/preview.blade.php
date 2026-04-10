@@ -16,40 +16,75 @@
         <div class="card-body">
 
             <!-- Statistik -->
-            <div class="mb-3">
-                <strong>Total Data:</strong> {{ count($data) - 1 }} <br>
-                <strong>Error:</strong> {{ count($errors) }}
-            </div>
-
-            <!-- Error List -->
-            @if(count($errors) > 0)
+                @if(count($errors))
                 <div class="alert alert-danger">
+                    <b>Error:</b>
                     <ul>
-                        @foreach($errors as $error)
-                            <li>{{ $error }}</li>
+                        @foreach($errors as $e)
+                        <li>{{ $e }}</li>
                         @endforeach
                     </ul>
                 </div>
-            @endif
+                @endif
+
+                <!-- @if(count($warnings))
+                <div class="alert alert-warning">
+                    <b>Warning (Duplikat):</b>
+                    <ul>
+                        @foreach($warnings as $w)
+                        <li>{{ $w }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif -->
 
             <!-- Table -->
             <div class="table-responsive">
-                <table class="table table-bordered">
-                    @foreach($data as $i => $row)
-                        <tr class="{{ $i == 0 ? 'table-dark' : '' }}">
-                            @foreach($row as $cell)
-                                <td>{{ $cell }}</td>
-                            @endforeach
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Tanggal</th>
+                            <th>Nama</th>
+                            <th>Proyek</th>
+                            <th>Upah</th>
+                            <th>Status</th>
                         </tr>
-                    @endforeach
+                    </thead>
+                    <tbody>
+                        @foreach($preview as $row)
+                        <tr class="
+                                @if($row['is_error']) table-danger
+                                @elseif($row['duplicate']) table-warning
+                                @endif
+                            ">
+                            <td>{{ $row['no'] }}</td>
+                            <td>{{ $row['tanggal'] }}</td>
+                            <td>{{ $row['nama_tukang'] }}</td>
+                            <td>{{ $row['proyek'] }}</td>
+                            <td>{{ $row['upah_harian'] }}</td>
+                            <td>
+                                @if($row['duplicate'])
+                                    <span class="badge bg-danger">Duplicate</span>
+                                @else
+                                    <span class="badge bg-success">OK</span>
+                                @endif
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
                 </table>
             </div>
 
             <form action="/import" method="POST">
                 @csrf
-                <button class="btn btn-success" {{ count($errors) > 0 ? 'disabled' : '' }}>
-                Import ke Database
-                </button>
+                @if(count($errors) == 0)
+                <button class="btn btn-success">Import ke Database</button>
+                @else
+                    <button class="btn btn-secondary" disabled>
+                    Tidak bisa import (masih ada error)
+                    </button>
+                @endif
                 <a href="/" class="btn btn-secondary">Kembali</a>
             </form>
 
