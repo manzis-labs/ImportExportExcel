@@ -9,7 +9,7 @@
 <div class="container mt-5">
 
     <div class="card shadow">
-        <div class="card-header bg-dark text-white">
+        <div class="card-header bg-dark text-white d-flex justify-content-between mb-3">
             <h4>Dashboard Data Absensi Tukang</h4>
             <form action="/logout" method="POST" class="mb-3">
                  @csrf
