@@ -10,7 +10,7 @@
 
     <div class="card shadow">
         <div class="card-header bg-dark text-white d-flex justify-content-between mb-3">
-            <h2>Dashboard Data Absensi Tukang</h2>
+            <h2>Dashboard Data Absensi Karyawan Maulana Cipta Kreasindo</h2>
             <form action="/logout" method="POST" class="mb-3">
                  @csrf
                 <button class="btn btn-danger">Logout</button>
