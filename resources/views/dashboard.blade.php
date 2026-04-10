@@ -10,7 +10,7 @@
 
     <div class="card shadow">
         <div class="card-header bg-dark text-white d-flex justify-content-between mb-3">
-            <h4>Dashboard Data Absensi Tukang</h4>
+            <h2>Dashboard Data Absensi Tukang</h2>
             <form action="/logout" method="POST" class="mb-3">
                  @csrf
                 <button class="btn btn-danger">Logout</button>
@@ -44,7 +44,7 @@
             <div class="mb-3 d-flex gap-2">
 
                 <!-- IMPORT -->
-                <a href="/" class="btn btn-primary">
+                <a href="/upload" class="btn btn-primary">
                     📥 Import Excel
                 </a>
 
@@ -57,19 +57,19 @@
 
             <div style="display: flex; gap: 20px; margin-bottom: 20px;">
     
-            <div style="background: #4CAF50; color: white; padding: 15px; border-radius: 10px;">
+            <div class="text-center" style="background: #4CAF50; color: white; padding: 15px; border-radius: 10px;">
                 <h3>Total Data</h3>
-                <p>{{ $totalData }}</p>
+                <p class="fs-5 fw-bold mb-0">{{ $totalData }}</p>
             </div>
 
-            <div style="background: #2196F3; color: white; padding: 15px; border-radius: 10px;">
+            <div class="text-center" style="background: #2196F3; color: white; padding: 15px; border-radius: 10px;">
                 <h3>Total Upah</h3>
-                <p>Rp {{ number_format($totalUpah, 0, ',', '.') }}</p>
+                <p class="fs-5 fw-bold mb-0">Rp {{ number_format($totalUpah, 0, ',', '.') }}</p>
             </div>
 
-            <div style="background: #FF9800; color: white; padding: 15px; border-radius: 10px;">
+            <div class="text-center" style="background: #FF9800; color: white; padding: 15px; border-radius: 10px;">
                 <h3>Jumlah Karyawan</h3>
-                <p>{{ $totalTukang }}</p>
+                <p class="fs-4 fw-bold mb-0">{{ $totalTukang }}</p>
             </div>
 
             </div>
@@ -101,7 +101,7 @@
                         <td>{{ $d->status }}</td>
                         <td>{{ $d->upah_harian }}</td>
                         <td>
-                            <a href="/edit/{{ $item->id }}" class="btn btn-warning btn-sm">
+                            <a href="/edit/{{ $d->id }}" class="btn btn-warning btn-sm">
                                 Edit
                             </a>
                             <a href="/delete/{{ $d->id }}" 
