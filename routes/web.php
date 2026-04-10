@@ -20,3 +20,5 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/', function () {
     return redirect('/login');
 });
+
+require __DIR__.'/auth.php';

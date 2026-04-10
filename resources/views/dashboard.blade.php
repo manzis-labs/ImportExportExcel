@@ -11,13 +11,14 @@
     <div class="card shadow">
         <div class="card-header bg-dark text-white">
             <h4>Dashboard Data Absensi Tukang</h4>
-        </div>
-
-        <div class="card-body">
             <form action="/logout" method="POST" class="mb-3">
                  @csrf
                 <button class="btn btn-danger">Logout</button>
             </form>
+        </div>
+
+        <div class="card-body">
+
             @if(session('success'))
                 <div class="alert alert-success">
                     {{ session('success') }}
@@ -43,7 +44,7 @@
             <a href="/export" class="btn btn-success mb-3">
                 Export Excel
             </a>
-            
+
             <div style="display: flex; gap: 20px; margin-bottom: 20px;">
     
             <div style="background: #4CAF50; color: white; padding: 15px; border-radius: 10px;">

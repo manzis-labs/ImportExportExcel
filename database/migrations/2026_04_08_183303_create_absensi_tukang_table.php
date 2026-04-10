@@ -22,7 +22,7 @@ return new class extends Migration
         $table->string('status');
         $table->integer('upah_harian');
         $table->timestamps();
-    });
+    }); 
 }
 
     /**
