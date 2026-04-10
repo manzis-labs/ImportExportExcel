@@ -126,6 +126,20 @@ class ImportController extends Controller
     ));
 }
 
+    public function update(Request $request, $id)
+    {
+        $data = AbsensiTukang::findOrFail($id);
+
+        $data->update([
+            'nama_tukang' => $request->nama_tukang,
+            'jabatan' => $request->jabatan,
+            'proyek' => $request->proyek,
+            'upah_harian' => $request->upah_harian,
+        ]);
+
+        return redirect('/dashboard');
+    }
+    
     public function delete($id)
     {
     AbsensiTukang::findOrFail($id)->delete();
