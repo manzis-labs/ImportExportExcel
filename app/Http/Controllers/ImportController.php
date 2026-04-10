@@ -93,7 +93,7 @@ class ImportController extends Controller
 }
 
     public function index(Request $request)
-    {
+{
     $query = AbsensiTukang::query();
 
     // filter nama
@@ -111,10 +111,20 @@ class ImportController extends Controller
         $query->whereDate('tanggal', $request->tanggal);
     }
 
+    // ambil data
     $data = $query->latest()->paginate(10);
 
-    return view('dashboard', compact('data'));
-    }
+    $totalData = $query->count();
+    $totalUpah = $query->sum('upah_harian');
+    $totalTukang = $query->distinct('nama_tukang')->count('nama_tukang');
+
+    return view('dashboard', compact(
+        'data',
+        'totalData',
+        'totalUpah',
+        'totalTukang'
+    ));
+}
 
     public function delete($id)
     {

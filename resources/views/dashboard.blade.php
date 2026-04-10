@@ -39,9 +39,29 @@
                     <button class="btn btn-primary">Filter</button>
                 </div>
             </form>
+
             <a href="/export" class="btn btn-success mb-3">
                 Export Excel
             </a>
+            
+            <div style="display: flex; gap: 20px; margin-bottom: 20px;">
+    
+            <div style="background: #4CAF50; color: white; padding: 15px; border-radius: 10px;">
+                <h3>Total Data</h3>
+                <p>{{ $totalData }}</p>
+            </div>
+
+            <div style="background: #2196F3; color: white; padding: 15px; border-radius: 10px;">
+                <h3>Total Upah</h3>
+                <p>Rp {{ number_format($totalUpah, 0, ',', '.') }}</p>
+            </div>
+
+            <div style="background: #FF9800; color: white; padding: 15px; border-radius: 10px;">
+                <h3>Jumlah Tukang</h3>
+                <p>{{ $totalTukang }}</p>
+            </div>
+
+            </div>
             <!-- Table -->
             <table class="table table-bordered table-striped">
                 <thead class="table-dark">
