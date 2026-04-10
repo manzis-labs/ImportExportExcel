@@ -41,9 +41,19 @@
                 </div>
             </form>
 
-            <a href="/export" class="btn btn-success mb-3">
-                Export Excel
-            </a>
+            <div class="mb-3 d-flex gap-2">
+
+                <!-- IMPORT -->
+                <a href="/" class="btn btn-primary">
+                    📥 Import Excel
+                </a>
+
+                <!-- EXPORT -->
+                <a href="/export" class="btn btn-success">
+                    📤 Export Excel
+                </a>
+
+            </div>
 
             <div style="display: flex; gap: 20px; margin-bottom: 20px;">
     
@@ -58,7 +68,7 @@
             </div>
 
             <div style="background: #FF9800; color: white; padding: 15px; border-radius: 10px;">
-                <h3>Jumlah Tukang</h3>
+                <h3>Jumlah Karyawan</h3>
                 <p>{{ $totalTukang }}</p>
             </div>
 
@@ -91,6 +101,9 @@
                         <td>{{ $d->status }}</td>
                         <td>{{ $d->upah_harian }}</td>
                         <td>
+                            <a href="/edit/{{ $item->id }}" class="btn btn-warning btn-sm">
+                                Edit
+                            </a>
                             <a href="/delete/{{ $d->id }}" 
                                onclick="return confirm('Yakin hapus?')" 
                                class="btn btn-danger btn-sm">

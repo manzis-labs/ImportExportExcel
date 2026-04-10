@@ -14,6 +14,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [ImportController::class, 'index']);
     Route::get('/delete/{id}', [ImportController::class, 'delete']);
     Route::get('/export', [ImportController::class, 'export']);
+    Route::get('/edit/{id}', [ImportController::class, 'edit']);
+    Route::post('/update/{id}', [ImportController::class, 'update']);
 
 });
 
