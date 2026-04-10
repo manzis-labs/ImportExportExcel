@@ -13,7 +13,21 @@ WORKDIR /app
 # Copy project
 COPY . .
 
-# Install Laravel dependencies
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    zip \
+    unzip \
+    git \
+    curl
+
+# Install GD
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install gd
+
+# Baru install composer deps
 RUN composer install --no-dev --optimize-autoloader
 
 # Laravel setup
@@ -22,6 +36,6 @@ RUN php artisan config:cache
 
 # Expose port
 EXPOSE 10000
-#test
+
 # Run server
 CMD php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=10000
