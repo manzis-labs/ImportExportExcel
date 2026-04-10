@@ -1,10 +1,31 @@
 <?php
 
-use App\Http\Controllers\ImportController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ImportController;
+use App\Http\Controllers\AuthController;
+
+// halaman login
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+
+// proses login
+Route::post('/login', [AuthController::class, 'login']);
+
+// logout
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+
+/*
+|--------------------------------------------------------------------------
+| PROTECTED ROUTES (WAJIB LOGIN)
+|--------------------------------------------------------------------------
+*/
 
 Route::middleware(['auth'])->group(function () {
 
+    // dashboard
+    Route::get('/dashboard', [ImportController::class, 'index'])->name('dashboard');
+
+    // upload excel
     Route::get('/upload', function () {
         return view('upload');
     });
@@ -12,19 +33,25 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/preview', [ImportController::class, 'preview']);
     Route::post('/import', [ImportController::class, 'import']);
 
-    Route::get('/dashboard', [ImportController::class, 'index'])->name('dashboard');
-
+    // CRUD data
     Route::get('/delete/{id}', [ImportController::class, 'delete']);
-    Route::get('/export', [ImportController::class, 'export']);
     Route::get('/edit/{id}', [ImportController::class, 'edit']);
     Route::post('/update/{id}', [ImportController::class, 'update']);
+
+    // export
+    Route::get('/export', [ImportController::class, 'export']);
     Route::get('/export-pdf', [ImportController::class, 'exportPDF']);
 
 });
 
-// default arahkan ke login
+
+/*
+|--------------------------------------------------------------------------
+| DEFAULT ROUTE
+|--------------------------------------------------------------------------
+*/
+
+// kalau buka root → ke login
 Route::get('/', function () {
     return redirect('/login');
 });
-
-require __DIR__.'/auth.php';
