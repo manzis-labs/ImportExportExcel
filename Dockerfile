@@ -43,4 +43,4 @@ EXPOSE 10000
 
 # Run Laravel + migrate otomatis
 CMD php artisan migrate --force && \
-    php artisan serve --host=0.0.0.0 --port=10000
+    php -S 0.0.0.0:10000 -t public
