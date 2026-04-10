@@ -112,6 +112,7 @@
                     @endforeach
                 </tbody>
             </table>
+            {{ $data->links() }}
             <div class="card mb-4">
                 <div class="card-body">
                     <h5>Grafik Total Upah per Proyek</h5>
@@ -122,6 +123,8 @@
     </div>
 
 </div>
+
+<!-- Chart -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     const labels = {!! json_encode($chart->pluck('proyek')) !!};
@@ -140,6 +143,17 @@
             }]
         }
     });
+</script>
+<!-- Chart End -->
+
+<!-- Alert Otomatis Hilang -->
+ <script>
+    setTimeout(() => {
+        let alert = document.querySelector('.alert');
+        if(alert){
+            alert.style.display = 'none';
+        }
+    }, 3000);
 </script>
 </body>
 </html>
