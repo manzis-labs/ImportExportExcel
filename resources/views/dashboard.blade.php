@@ -49,7 +49,7 @@
                 </a>
 
                 <!-- EXPORT -->
-                <a href="/export" class="btn btn-success">
+                <a href="{{ url('/export') }}?nama={{ request('nama') }}&proyek={{ request('proyek') }}&tanggal={{ request('tanggal') }}" class="btn btn-success">
                     📤 Export Excel
                 </a>
 

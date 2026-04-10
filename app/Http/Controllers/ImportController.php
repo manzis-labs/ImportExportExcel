@@ -88,38 +88,54 @@ class ImportController extends Controller
     return redirect('/dashboard')->with('success', 'Data berhasil diimport!');
     }
 
-    public function export()
+public function export(Request $request)
 {
-    return Excel::download(new AbsensiExport, 'laporan_absensi.xlsx');
+    $query = AbsensiTukang::query();
+
+    if ($request->nama) {
+        $query->where('nama_tukang', 'like', '%' . $request->nama . '%');
+    }
+
+    if ($request->proyek) {
+        $query->where('proyek', 'like', '%' . $request->proyek . '%');
+    }
+
+    if ($request->tanggal) {
+        $query->whereDate('tanggal', $request->tanggal);
+    }
+
+    $data = $query->get();
+
+    return Excel::download(new AbsensiExport($data), 'Absensi.xlsx');
 }
 
     public function index(Request $request)
 {
     $query = AbsensiTukang::query();
 
-    // filter nama
     if ($request->nama) {
         $query->where('nama_tukang', 'like', '%' . $request->nama . '%');
     }
 
-    // filter proyek
     if ($request->proyek) {
         $query->where('proyek', 'like', '%' . $request->proyek . '%');
     }
 
-    // filter tanggal
     if ($request->tanggal) {
         $query->whereDate('tanggal', $request->tanggal);
     }
 
-    // ambil data
-    $data = $query->paginate(10);
+    $filteredQuery = clone $query;
 
-    $totalData = $data->count();
-    $totalUpah = $data->sum('upah_harian');
-    $totalTukang = $data->unique('nama_tukang')->count();
-    
-        $chart = $query
+    $data = $query->paginate(10)->withQueryString();
+
+    $filteredData = $filteredQuery->get();
+
+    $totalData = $filteredData->count();
+    $totalUpah = $filteredData->sum('upah_harian');
+    $totalTukang = $filteredData->unique('nama_tukang')->count();
+
+    $chart = (clone $filteredQuery)
         ->select('proyek', DB::raw('SUM(upah_harian) as total'))
         ->groupBy('proyek')
         ->get();

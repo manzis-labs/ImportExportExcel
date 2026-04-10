@@ -5,21 +5,34 @@ namespace App\Exports;
 use App\Models\AbsensiTukang;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithMapping;
 
-class AbsensiExport implements FromCollection, WithHeadings
+class AbsensiExport implements FromCollection, WithHeadings, WithMapping
 {
-    public function collection()
+    protected $data;
+
+    public function __construct($data)
+        {
+            $this->data = $data;
+        }
+
+        public function collection()
     {
-        return AbsensiTukang::select(
-            'tanggal',
-            'nama_tukang',
-            'jabatan',
-            'proyek',
-            'jam_masuk',
-            'jam_pulang',
-            'status',
-            'upah_harian'
-        )->get();
+        return $this->data;
+    }
+
+    public function map($row): array
+    {
+        return [
+            $row->tanggal,
+            $row->nama_tukang,
+            $row->jabatan,
+            $row->proyek,
+            $row->jam_masuk,
+            $row->jam_pulang,
+            $row->status,
+            $row->upah_harian,
+        ];
     }
 
     public function headings(): array
