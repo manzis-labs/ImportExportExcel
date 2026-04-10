@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\AbsensiExport;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use App\Models\AbsensiTukang;
 
@@ -84,6 +86,11 @@ class ImportController extends Controller
 
     return redirect('/')->with('success', 'Data berhasil diimport!');
     }
+
+    public function export()
+{
+    return Excel::download(new AbsensiExport, 'laporan_absensi.xlsx');
+}
 
     public function index(Request $request)
     {

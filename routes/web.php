@@ -13,6 +13,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/import', [ImportController::class, 'import']);
     Route::get('/dashboard', [ImportController::class, 'index']);
     Route::get('/delete/{id}', [ImportController::class, 'delete']);
+    Route::get('/export', [ImportController::class, 'export']);
 
 });
 
