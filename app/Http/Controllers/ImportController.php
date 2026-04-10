@@ -33,7 +33,7 @@ class ImportController extends Controller
             ]);
         }
 
-        return back()->with('success', 'Data berhasil diimport!');
+        return redirect('/dashboard')->with('success', 'Data berhasil diimport!');
     }
 
     public function preview(Request $request)
@@ -85,7 +85,7 @@ class ImportController extends Controller
         ]);
     }
 
-    return redirect('/')->with('success', 'Data berhasil diimport!');
+    return redirect('/dashboard')->with('success', 'Data berhasil diimport!');
     }
 
     public function export()
@@ -113,13 +113,14 @@ class ImportController extends Controller
     }
 
     // ambil data
-    $data = AbsensiTukang::all();
+    $data = $query->get();
 
     $totalData = $data->count();
     $totalUpah = $data->sum('upah_harian');
     $totalTukang = $data->unique('nama_tukang')->count();
     
-        $chart = AbsensiTukang::select('proyek', DB::raw('SUM(upah_harian) as total'))
+        $chart = $query
+        ->select('proyek', DB::raw('SUM(upah_harian) as total'))
         ->groupBy('proyek')
         ->get();
 
@@ -149,7 +150,7 @@ class ImportController extends Controller
             'upah_harian' => $request->upah_harian,
         ]);
 
-        return redirect('/dashboard');
+        return redirect('/dashboard')->with('success', 'Data berhasil diupdate!');
     }
 
     public function delete($id)
