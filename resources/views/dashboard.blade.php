@@ -28,13 +28,13 @@
             <!-- Filter -->
             <form method="GET" class="row mb-3">
                 <div class="col">
-                    <input type="text" name="nama" class="form-control" placeholder="Cari Nama">
+                    <input type="text" name="nama" class="form-control" placeholder="Cari Nama" value="{{ request('nama') }}">
                 </div>
                 <div class="col">
-                    <input type="text" name="proyek" class="form-control" placeholder="Cari Proyek">
+                    <input type="text" name="proyek" class="form-control" placeholder="Cari Proyek" value="{{ request('proyek') }}">
                 </div>
                 <div class="col">
-                    <input type="date" name="tanggal" class="form-control">
+                    <input type="date" name="tanggal" class="form-control" value="{{ request('tanggal') }}">
                 </div>
                 <div class="col">
                     <button class="btn btn-primary">Filter</button>
