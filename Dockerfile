@@ -1,41 +1,44 @@
 FROM php:8.2-cli
 
-# Install dependencies
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
-    unzip curl libpq-dev \
-    && docker-php-ext-install pdo pdo_pgsql
+    unzip \
+    curl \
+    libpq-dev \
+    libzip-dev \
+    libpng-dev \
+    libonig-dev \
+    libxml2-dev \
+    zip \
+    && docker-php-ext-install \
+        pdo \
+        pdo_pgsql \
+        zip \
+        gd
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+# Set working directory
 WORKDIR /app
 
-# Copy project
+# Copy semua file project
 COPY . .
 
-# Install dependencies
-RUN apt-get update && apt-get install -y \
-    libpng-dev \
-    libjpeg-dev \
-    libfreetype6-dev \
-    zip \
-    unzip \
-    git \
-    curl
-
-# Install GD
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd
-
-# Baru install composer deps
+# Install dependency Laravel
 RUN composer install --no-dev --optimize-autoloader
 
-# Laravel setup
+# Setup Laravel
 RUN php artisan key:generate
 RUN php artisan config:cache
+RUN php artisan route:cache
+RUN php artisan view:cache
 
-# Expose port
+# Storage link (penting untuk file upload)
+RUN php artisan storage:link || true
+
+# Expose port Render
 EXPOSE 10000
 
-# Run server
+# Run Laravel + migrate otomatis
 CMD php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=10000
