@@ -29,10 +29,11 @@ COPY . .
 RUN composer install --no-dev --optimize-autoloader
 
 # Setup Laravel
-# RUN php artisan key:generate
-# RUN php artisan config:cache
-# RUN php artisan route:cache
-# RUN php artisan view:cache
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
+    apt-get install -y nodejs
+
+RUN npm install
+RUN npm run build
 
 # Storage link (penting untuk file upload)
 RUN php artisan storage:link || true
