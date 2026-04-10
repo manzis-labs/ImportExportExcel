@@ -9,7 +9,7 @@
 <div class="container mt-5">
     <div class="card shadow">
         <div class="card-header bg-primary text-white">
-            <h4>Import Data Absensi Tukang</h4>
+            <h4>Import Data Absensi</h4>
         </div>
 
         <div class="card-body">
@@ -26,7 +26,7 @@
                 </div>
                 <button class="btn btn-primary">Preview</button>
             </form>
-            <a href="/dashboard" class="btn btn-success mt-3">Lihat Data</a>
+            <a href="/dashboard" class="btn btn-secondary mt-3">Kembali</a>
         </div>
     </div>
 </div>

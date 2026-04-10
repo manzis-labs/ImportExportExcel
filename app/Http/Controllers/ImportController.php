@@ -113,7 +113,7 @@ class ImportController extends Controller
     }
 
     // ambil data
-    $data = $query->get();
+    $data = $query->paginate(10);
 
     $totalData = $data->count();
     $totalUpah = $data->sum('upah_harian');
