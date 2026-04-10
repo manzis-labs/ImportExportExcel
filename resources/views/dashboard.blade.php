@@ -39,7 +39,9 @@
                     <button class="btn btn-primary">Filter</button>
                 </div>
             </form>
-
+            <a href="/export" class="btn btn-success mb-3">
+                Export Excel
+            </a>
             <!-- Table -->
             <table class="table table-bordered table-striped">
                 <thead class="table-dark">
