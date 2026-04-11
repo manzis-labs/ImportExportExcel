@@ -35,6 +35,10 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
 RUN npm install
 RUN npm run build
 
+RUN php artisan config:cache
+RUN php artisan route:cache
+RUN php artisan view:cache
+
 # Storage link (penting untuk file upload)
 RUN php artisan storage:link || true
 
@@ -42,5 +46,7 @@ RUN php artisan storage:link || true
 EXPOSE 10000
 
 # Run Laravel + migrate otomatis
-CMD php artisan migrate --force && \
+CMD php artisan config:clear && \
+    php artisan cache:clear && \
+    php artisan migrate --force || true && \
     php -S 0.0.0.0:10000 -t public
