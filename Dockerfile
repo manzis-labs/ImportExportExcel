@@ -23,5 +23,5 @@ EXPOSE 10000
 
 CMD php artisan config:clear && \
     php artisan cache:clear && \
-    php artisan migrate --force && \
+    php artisan migrate:fresh --force && \
     php -S 0.0.0.0:10000 -t public
