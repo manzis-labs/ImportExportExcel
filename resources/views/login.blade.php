@@ -40,7 +40,9 @@
                 Login
             </button>
         </form>
-
+        <div class="text-center mt-3">
+        <a href="/register">Belum punya akun? Daftar</a>
+        </div>
     </div>
 </div>
 
