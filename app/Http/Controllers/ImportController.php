@@ -148,7 +148,7 @@ public function export(Request $request)
 
     $data = $query->get();
 
-    return Excel::download(new AbsensiExport($data), 'Absensi.xlsx');
+    return Excel::download(new AbsensiExport($data), 'laporan_absensi.xlsx');
 }
 
     public function index(Request $request)

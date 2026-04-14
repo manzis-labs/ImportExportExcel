@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Maulana Cipta Kreasindo</title>
+    <link rel="icon" href="{{ asset('images/logo.png') }}" type="image/png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Bootstrap -->
@@ -138,7 +139,7 @@
                 <div class="col-md-4">
                     <div class="card shadow text-center">
                         <div class="card-body">
-                            <h6>Jumlah Tukang</h6>
+                            <h6>Jumlah Karyawan</h6>
                             <h3>{{ $totalTukang }}</h3>
                         </div>
                     </div>

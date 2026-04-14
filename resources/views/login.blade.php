@@ -22,12 +22,12 @@
 <div class="container d-flex justify-content-center align-items-center vh-100">
 
     <div class="card shadow p-4 text-center bg-black" style="width: 350px;">
+        <h4 class="text-center mb-3 text-light">Login</h4>
 
         <!-- LOGO -->
         <div class="mb-3">
             <img src="{{ asset('images/login.png') }}" alt="Logo" width="200">
         </div>
-
         <!-- NAMA PERUSAHAAN -->
         <h6 class="text-light mb-2">Maulana Cipta Kreasindo</h6>
 

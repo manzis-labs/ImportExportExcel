@@ -85,7 +85,7 @@
                     Tidak bisa import (masih ada error)
                     </button>
                 @endif
-                <a href="/" class="btn btn-secondary">Kembali</a>
+                <a href="/upload" class="btn btn-secondary">Kembali</a>
             </form>
 
         </div>
